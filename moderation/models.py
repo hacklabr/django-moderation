@@ -153,6 +153,10 @@ class ModeratedObject(models.Model):
     @property
     def moderator(self):
         model_class = self.content_object.__class__
+        # FIXME remove this hack. This is needed for django 1.11 in
+        # some corner cases.
+        if model_class is type(None):
+            model_class = self.changed_object.__class__
 
         return moderation.get_moderator(model_class)
 
