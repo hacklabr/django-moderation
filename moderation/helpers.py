@@ -23,21 +23,11 @@ def import_moderator(app):
     Import moderator module and register all models it contains with moderation
     '''
     from importlib import import_module
-    import imp
 
     try:
-        app_path = import_module(app).__path__
-    except AttributeError:
-        return None
-
-    try:
-        imp.find_module('moderator', app_path)
+        return import_module("%s.moderator" % app)
     except ImportError:
         return None
-
-    module = import_module("%s.moderator" % app)
-
-    return module
 
 
 def auto_discover():
